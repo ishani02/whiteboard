@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhiteBoard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
+</head>
+<body>
+    <div class="tools">
+        <div class="tool-items">
+            <div class="tool active-tool" id="pencil">
+                <div class="tool-img">
+                    <img src="./NewIcons/Black_Pencil.svg" alt="">
+                </div>
+           
+
+                <div class="tool-options" id="pencil-options">
+                    <div class="pencil-slider">
+                        <input type="range"  name="" id="pencil-size"  min="1" max="40" value="1">
+                    </div>
+                <div class="color-options">
+                   <div class="black" id="black"></div>
+                   <div class="red" id="red"></div>
+                   <div class="blue" id="blue"></div>
+                   <div class="yellow" id="yellow"></div>
+                </div>
+                </div>
+            </div>
+            <div class="tool" id="eraser">
+                <div class="tool-img">
+                    <img src="./NewIcons/Eraser.svg" alt="">
+                </div>
+
+              <div class="tool-options" id="eraser-options">
+                  <div class="eraser-slider">
+                  <input type="range" name="" id="eraser-size" min="1" max="40" value="1">
+
+                  </div>
+                </div>
+            </div>
+
+            <div class="tool" id="sticky">
+                <div class="tool-img">
+                    <img src="./NewIcons/StickyNote.svg" alt="">
+                </div>
+            </div>
+            <div class="tool" id="upload-img">
+                <label for="upload">
+                <div class="tool-img">
+                    <img src="./NewIcons/Photo.svg" alt="">
+                </div>
+                <input type="file" name="upload" id="upload" style="display: none;">
+            </label>
+            </div>
+            
+            <div class="tool" id="download">
+                <div class="tool-img">
+                    <img src="./NewIcons/Download.svg" alt="">
+                </div>
+            </div>
+            <div class="tool" id="undo">
+                <div class="tool-img">
+                    <img src="./NewIcons/Undo.svg" alt="">
+                </div>
+            </div>
+            <div class="tool" id="redo">
+                <div class="tool-img">
+                    <img src="./NewIcons/Redo.svg" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="drawing-area">
+        <canvas id="canvas"></canvas>
+    </div>
+
+<!-- <div class="stickyPad" >
+         <div class="nav">
+             <div class="minimize"></div>
+            <div class="close"></div>
+         </div>
+         <div class="content" >
+             <textarea name="" id="" cols="30" rows="10"></textarea>
+         </div>
+     </div> -->
+
+
+ <!-- variables defined in a file can be used in file which is 
+     imported below that file where variable is declared -->
+
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" integrity="sha512-v8ng/uGxkge3d1IJuEo6dJP8JViyvms0cly9pnbfRxT6/31c3dRWxIiwGnMSWwZjHKOuY3EVmijs7k1jz/9bLA==" crossorigin="true"></script>
+     <script>
+      const socket = io.connect("https://whiteboard-new-app.herokuapp.com/");
+      socket.on("onmousedown" , function(point){
+    // logic
+    console.log("in mousedown event");
+    let {x , y , width , color} = point;
+    ctx.lineWidth = width;
+    ctx.strokeStyle = color;
+    ctx.beginPath();
+    ctx.moveTo(x,y);
+})
+
+socket.on("onmousemove" , function(point){
+    //logic
+    console.log("in mousemove event");
+    let {x , y , width , color} = point;
+    ctx.lineWidth = width;
+    ctx.strokeStyle = color;
+    ctx.lineTo(x,y);
+    ctx.stroke();
+}) 
+     </script>
+    <script src="./script.js"></script>
+    <script src="./tools.js"></script>
+    <script src="./sticky.js"></script>
+    <script src="./img.js"></script>
+    <script src="./util.js"></script>
+    <script src="./receiver.js"></script>
+</body>
+</html>
